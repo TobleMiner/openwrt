@@ -254,6 +254,7 @@ platform_check_image() {
 	mzk-w04nu|\
 	mzk-w300nh|\
 	n5q|\
+	nanostationacl|\
 	nanostation-m|\
 	nanostation-m-xw|\
 	nbg460n_550n_550nh|\

@@ -1250,6 +1250,9 @@ ar71xx_board_detect() {
 	*"Tube2H")
 		name="tube2h"
 		;;
+	*"Ubiquiti Nanostation AC loco")
+		name="nanostationacl"
+		;;
 	*"UniFi")
 		name="unifi"
 		;;

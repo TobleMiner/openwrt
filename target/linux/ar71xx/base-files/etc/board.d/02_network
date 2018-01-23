@@ -137,6 +137,7 @@ ar71xx_setup_interfaces()
 	tube2h|\
 	unifi|\
 	unifiac-lite|\
+	nanostationacl|\
 	wi2a-ac200i|\
 	wndap360|\
 	wp543)

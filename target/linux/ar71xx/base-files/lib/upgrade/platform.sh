@@ -277,6 +277,7 @@ platform_check_image() {
 	unifi|\
 	unifi-outdoor|\
 	unifiac-lite|\
+	nanostationacl|\
 	unifiac-pro|\
 	weio|\
 	whr-g301n|\

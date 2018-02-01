@@ -392,9 +392,9 @@ static int build_image(image_info_t* im)
 	// build in-memory buffer
 	mem_size = sizeof(header_t);
 	if(im->fwinfo->sign) {
-		mem_size += sizeof(signature_t);
-	} else {
 		mem_size += sizeof(signature_rsa_t);
+	} else {
+		mem_size += sizeof(signature_t);
 	}
 	for (i = 0; i < im->part_count; ++i)
 	{

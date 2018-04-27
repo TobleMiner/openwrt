@@ -16,7 +16,12 @@
 #
 
 LOADADDR	:=
-LZMA_TEXT_START	:= 0x80a00000
+LOADADDR_ABI	:= $(shell echo "$(LOADADDR)" | egrep -io "[0-9A-F]+$$")
+LOADADDR_ABI	:= 0x$(shell echo "ibase=obase=16;$(LOADADDR_ABI)-12" | bc)
+
+LZMA_TEXT_START	:= 0x80A00000
+LZMA_TEXT_ABI	:= $(shell echo "$(LZMA_TEXT_START)" | egrep -io "[0-9A-F]+$$")
+LZMA_TEXT_ABI	:= 0x$(shell echo "ibase=obase=16;$(LZMA_TEXT_ABI)-12" | bc)
 LOADER_DATA	:=
 BOARD		:=
 FLASH_OFFS	:=
@@ -28,7 +33,7 @@ LD		:= $(CROSS_COMPILE)ld
 OBJCOPY		:= $(CROSS_COMPILE)objcopy
 OBJDUMP		:= $(CROSS_COMPILE)objdump
 
-BIN_FLAGS	:= -O binary -R .reginfo -R .note -R .comment -R .mdebug -S
+BIN_FLAGS	:= -O binary -R .reginfo -R .note -R .comment -R .mdebug -R .MIPS.abiflags -S
 
 CFLAGS		= -D__KERNEL__ -Wall -Wstrict-prototypes -Wno-trigraphs -Os \
 		  -fno-strict-aliasing -fno-common -fomit-frame-pointer -G 0 \
@@ -42,6 +47,8 @@ ASFLAGS		= $(CFLAGS) -D__ASSEMBLY__
 
 LDFLAGS		= -static --gc-sections -no-warn-mismatch
 LDFLAGS		+= -e startup -T loader.lds -Ttext $(LZMA_TEXT_START)
+
+# --section-start=.MIPS.abiflags=$(LZMA_TEXT_ABI)
 
 O_FORMAT 	= $(shell $(OBJDUMP) -i | head -2 | grep elf32)
 
@@ -100,6 +107,8 @@ loader2.o: loader.bin
 
 loader.elf: loader2.o
 	$(LD) -e startup -T loader2.lds -Ttext $(LOADADDR) -o $@ $<
+
+# --section-start=.MIPS.abiflags=$(LOADADDR_ABI)
 
 mrproper: clean
 

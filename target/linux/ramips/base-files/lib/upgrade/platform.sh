@@ -126,6 +126,7 @@ platform_check_image() {
 	px-4885-4M|\
 	px-4885-8M|\
 	rb750gr3|\
+	rbm33g|\
 	re6500|\
 	rp-n53|\
 	rt5350f-olinuxino|\

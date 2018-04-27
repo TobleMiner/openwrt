@@ -197,6 +197,7 @@ ramips_setup_interfaces()
 	jhr-n926r|\
 	mzk-wdpr|\
 	rb750gr3|\
+	rbm33g|\
 	rt-n14u|\
 	tplink,c20-v4|\
 	tplink,c50-v3|\

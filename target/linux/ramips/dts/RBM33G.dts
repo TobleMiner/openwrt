@@ -25,6 +25,7 @@
 			label = "rbm33g:green:usr";
 			gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
 		};
+
 	};
 
 	gpio-keys-polled {
@@ -38,6 +39,42 @@
 			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
+	};
+
+	pcie0_vcc_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie0_vcc";
+
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	pcie1_vcc_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie1_vcc";
+
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	pcie2_vcc_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie2_vcc";
+
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
 	};
 
 /*	gpio_export {
@@ -116,5 +153,9 @@
 };
 
 &i2c {
+	status = "okay";
+};
+
+&pcie {
 	status = "okay";
 };

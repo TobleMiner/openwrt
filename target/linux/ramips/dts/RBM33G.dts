@@ -105,12 +105,16 @@
 &pinctrl {
 	state_default: pinctrl0 {
 		gpio {
-			ralink,group = "i2c", "uart2", "uart3", "pcie", "rgmii2", "jtag";
+			ralink,group = "uart2", "uart3", "jtag";
 			ralink,function = "gpio";
 		};
 	};
 };
 
 &sdhci {
+	status = "okay";
+};
+
+&i2c {
 	status = "okay";
 };

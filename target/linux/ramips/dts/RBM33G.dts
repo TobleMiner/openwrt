@@ -77,6 +77,17 @@
 		regulator-always-on;
 	};
 
+	usb_vcc_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "usb_vcc";
+
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
 /*	gpio_export {
 		compatible = "gpio-export";
 		#size-cells = <0>;

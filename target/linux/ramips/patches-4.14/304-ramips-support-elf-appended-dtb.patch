@@ -1,0 +1,27 @@
+--- a/arch/mips/ralink/of.c
++++ b/arch/mips/ralink/of.c
+@@ -13,6 +13,7 @@
+ #include <linux/init.h>
+ #include <linux/sizes.h>
+ #include <linux/of_fdt.h>
++#include <linux/libfdt.h>
+ #include <linux/kernel.h>
+ #include <linux/bootmem.h>
+ #include <linux/module.h>
+@@ -50,8 +51,16 @@ __iomem void *plat_of_remap_node(const c
+ 	return ioremap_nocache(res.start, resource_size(&res));
+ }
+ 
++extern const char __appended_dtb;
+ void __init device_tree_init(void)
+ {
++#ifdef CONFIG_MIPS_ELF_APPENDED_DTB
++	if (!fdt_check_header(&__appended_dtb)) {
++		pr_info("Using appended Device Tree.\n");
++		initial_boot_params = (void *)&__appended_dtb;
++	}
++#endif
++
+ 	unflatten_and_copy_device_tree();
+ }
+ 

@@ -203,28 +203,17 @@ define Device/rb750gr3
 endef
 TARGET_DEVICES += rb750gr3
 
-define Build/loader-common
-	rm -rf $@.src
-	$(MAKE) -C lzma-loader \
-		PKG_BUILD_DIR="$@.src" \
-		TARGET_DIR="$(dir $@)" LOADER_NAME="$(notdir $@)" \
-		BOARD="$(BOARDNAME)" \
-		LZMA_TEXT_START=0x80a00000 LOADADDR=0x800a0000 \
-		$(1) compile loader.$(LOADER_TYPE)
-	mv "$@.$(LOADER_TYPE)" "$@"
-	rm -rf $@.src
-endef
-
-define Build/loader-kernel
-	$(call Build/loader-common,LOADER_DATA="$@")
-endef
-
 define Device/rbm33g
   DTS := RBM33G
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
   DEVICE_TITLE := MikroTik RBM33G
+  BOARDNAME := MIKROTIK-RBM33G
   DEVICE_PACKAGES := kmod-usb3 uboot-envtools
+  KERNEL := kernel-bin | patch-dtb | lzma | loader-kernel
+  LOADER_TYPE := elf
 
+#  IMAGE/factory.bin := append-kernel
+#  IMAGES += factory.bin
 #  BOARDNAME := MIKROTIK-RBM33G
 #  IMAGE_SIZE := $(ralink_default_fw_size_16M)
 #  LOADER_TYPE := elf

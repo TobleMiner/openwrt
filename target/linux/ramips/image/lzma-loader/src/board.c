@@ -11,30 +11,35 @@
 #include <stddef.h>
 #include "config.h"
 
-#define READREG(r)		*(volatile unsigned int *)(r)
+#define READREG(r)		*(volatile unsgined int *)(r)
 #define WRITEREG(r,v)		*(volatile unsigned int *)(r) = v
 
 #define KSEG1ADDR(_x)		(((_x) & 0x1fffffff) | 0xa0000000)
 
+/*
+NT, but total and utter bs
 #ifdef CONFIG_SOC_RT288X
 #define UART_BASE		0xb0300c00
 #else
 #define UART_BASE		0xb0000c00
 #endif
+*/
 
-#define UART_TX			1
-#define UART_LSR		7
+#define UART_BASE		0xBE000C00
 
-#define UART_LSR_THRE		0x20
+#define UART_TX			0
+#define UART_LSR		5
+
+#define UART_LSR_TEMT		(1 << 6)
 
 #define UART_READ(r)		READREG(UART_BASE + 4 * (r))
 #define UART_WRITE(r,v)		WRITEREG(UART_BASE + 4 * (r), (v))
 
 void board_putc(int ch)
 {
-	while (((UART_READ(UART_LSR)) & UART_LSR_THRE) == 0);
+	while (((UART_READ(UART_LSR)) & UART_LSR_TEMT) == 0);
 	UART_WRITE(UART_TX, ch);
-	while (((UART_READ(UART_LSR)) & UART_LSR_THRE) == 0);
+	while (((UART_READ(UART_LSR)) & UART_LSR_TEMT) == 0);
 }
 
 void board_init(void)

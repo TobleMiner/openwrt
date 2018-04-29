@@ -16,47 +16,38 @@
 #
 
 LOADADDR	:=
-LOADADDR_ABI	:= $(shell echo "$(LOADADDR)" | egrep -io "[0-9A-F]+$$")
-LOADADDR_ABI	:= 0x$(shell echo "ibase=obase=16;$(LOADADDR_ABI)-12" | bc)
-
-LZMA_TEXT_START	:= 0x80A00000
-LZMA_TEXT_ABI	:= $(shell echo "$(LZMA_TEXT_START)" | egrep -io "[0-9A-F]+$$")
-LZMA_TEXT_ABI	:= 0x$(shell echo "ibase=obase=16;$(LZMA_TEXT_ABI)-12" | bc)
+LZMA_TEXT_START	:= 0x80a00000
 LOADER_DATA	:=
 BOARD		:=
 FLASH_OFFS	:=
 FLASH_MAX	:=
-PLATFORM	:=
 
 CC		:= $(CROSS_COMPILE)gcc
 LD		:= $(CROSS_COMPILE)ld
 OBJCOPY		:= $(CROSS_COMPILE)objcopy
 OBJDUMP		:= $(CROSS_COMPILE)objdump
 
-BIN_FLAGS	:= -O binary -R .reginfo -R .note -R .comment -R .mdebug -R .MIPS.abiflags -S
+BIN_FLAGS	:= -O binary -R .reginfo -R .note -R .comment -R .mdebug \
+		   -R .MIPS.abiflags -S
 
 CFLAGS		= -D__KERNEL__ -Wall -Wstrict-prototypes -Wno-trigraphs -Os \
 		  -fno-strict-aliasing -fno-common -fomit-frame-pointer -G 0 \
 		  -mno-abicalls -fno-pic -ffunction-sections -pipe -mlong-calls \
-		  -fno-common -ffreestanding -fhonour-copts \
+		  -fno-common -ffreestanding -fhonour-copts -nostartfiles \
 		  -mabi=32 -march=mips32r2 \
 		  -Wa,-32 -Wa,-march=mips32r2 -Wa,-mips32r2 -Wa,--trap
-CFLAGS		+= -D_LZMA_PROB32 -DARCH=$(PLATFORM)
+CFLAGS		+= -D_LZMA_PROB32
+CFLAGS		+= -flto
 
 ASFLAGS		= $(CFLAGS) -D__ASSEMBLY__
 
-LDFLAGS		= -static --gc-sections -no-warn-mismatch
-LDFLAGS		+= -e startup -T loader.lds -Ttext $(LZMA_TEXT_START)
-
-# --section-start=.MIPS.abiflags=$(LZMA_TEXT_ABI)
+LDFLAGS		= -static -Wl,--gc-sections -Wl,-no-warn-mismatch
+LDFLAGS		+= -Wl,-e,startup -T loader.lds -Wl,-Ttext,$(LZMA_TEXT_START)
+LDFLAGS		+= -flto -fwhole-program
 
 O_FORMAT 	= $(shell $(OBJDUMP) -i | head -2 | grep elf32)
 
-OBJECTS		:= head.o loader.o cache.o board-$(PLATFORM).o printf.o LzmaDecode.o
-
-include $(PLATFORM).mk
-CFLAGS+=$(CACHE_FLAGS)
-ASFLAGS+=$(CACHE_FLAGS)
+OBJECTS		:= head.o loader.o cache.o board.o printf.o LzmaDecode.o
 
 ifneq ($(strip $(LOADER_DATA)),)
 OBJECTS		+= data.o
@@ -97,7 +88,7 @@ data.o: $(LOADER_DATA)
 	$(LD) -r -b binary --oformat $(O_FORMAT) -T lzma-data.lds -o $@ $<
 
 loader: $(OBJECTS)
-	$(LD) $(LDFLAGS) -o $@ $(OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS)
 
 loader.bin: loader
 	$(OBJCOPY) $(BIN_FLAGS) $< $@
@@ -107,8 +98,6 @@ loader2.o: loader.bin
 
 loader.elf: loader2.o
 	$(LD) -e startup -T loader2.lds -Ttext $(LOADADDR) -o $@ $<
-
-# --section-start=.MIPS.abiflags=$(LOADADDR_ABI)
 
 mrproper: clean
 

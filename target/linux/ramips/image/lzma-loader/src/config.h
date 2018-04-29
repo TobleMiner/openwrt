@@ -12,6 +12,10 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#define CONFIG_ICACHE_SIZE	(32 * 1024)
+#define CONFIG_DCACHE_SIZE	(16 * 1024)
+#define CONFIG_CACHELINE_SIZE	32
+
 #ifndef CONFIG_FLASH_OFFS
 #define CONFIG_FLASH_OFFS	0
 #endif

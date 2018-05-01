@@ -209,8 +209,13 @@ define Device/rbm33g
   DEVICE_TITLE := MikroTik RBM33G
   BOARDNAME := MIKROTIK-RBM33G
   DEVICE_PACKAGES := kmod-usb3 uboot-envtools
-  KERNEL := kernel-bin | patch-dtb | lzma | loader-kernel
+
   LOADER_TYPE := elf
+  PLATFORM := mt7621
+  KERNEL := kernel-bin | patch-dtb | lzma | loader-kernel
+
+  IMAGES += routerboot.elf
+#  IMAGE/routerboot.elf := append-rootfs-elf | append-dtb
 
 #  IMAGE/factory.bin := append-kernel
 #  IMAGES += factory.bin

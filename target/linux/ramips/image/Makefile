@@ -49,6 +49,16 @@ define Build/patch-dtb
 	$(STAGING_DIR_HOST)/bin/patch-dtb $@ $@.dtb
 endef
 
+OBJCOPY := $(CROSS_COMPILE)objcopy
+define Build/append-dtb
+	$(call Image/BuildDTB,../dts/$(DTS).dts,$@.dtb)
+	$(OBJCOPY) --update-section .appended_dtb=$@.dtb $@
+endef
+
+define Build/append-rootfs-elf
+	dd if=$(IMAGE_ROOTFS).elf >> $@
+endef
+
 define Build/trx
 	$(STAGING_DIR_HOST)/bin/trx $(1) \
 		-o $@ \
@@ -62,7 +72,7 @@ define Build/loader-common
 	$(MAKE) -C lzma-loader \
 		PKG_BUILD_DIR="$@.src" \
 		TARGET_DIR="$(dir $@)" LOADER_NAME="$(notdir $@)" \
-		BOARD="$(BOARDNAME)" \
+		BOARD="$(BOARDNAME)" PLATFORM="$(PLATFORM)" \
 		LZMA_TEXT_START=0x81000000 LOADADDR=$(KERNEL_LOADADDR) \
 		$(1) compile loader.$(LOADER_TYPE)
 	mv "$@.$(LOADER_TYPE)" "$@"

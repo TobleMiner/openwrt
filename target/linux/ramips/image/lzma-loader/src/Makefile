@@ -21,11 +21,16 @@ LOADER_DATA	:=
 BOARD		:=
 FLASH_OFFS	:=
 FLASH_MAX	:=
+PLATFORM	:=
+CACHE_FLAGS	:=
 
 CC		:= $(CROSS_COMPILE)gcc
 LD		:= $(CROSS_COMPILE)ld
 OBJCOPY		:= $(CROSS_COMPILE)objcopy
 OBJDUMP		:= $(CROSS_COMPILE)objdump
+
+
+include $(PLATFORM).mk
 
 BIN_FLAGS	:= -O binary -R .reginfo -R .note -R .comment -R .mdebug \
 		   -R .MIPS.abiflags -S
@@ -38,6 +43,7 @@ CFLAGS		= -D__KERNEL__ -Wall -Wstrict-prototypes -Wno-trigraphs -Os \
 		  -Wa,-32 -Wa,-march=mips32r2 -Wa,-mips32r2 -Wa,--trap
 CFLAGS		+= -D_LZMA_PROB32
 CFLAGS		+= -flto
+CFLAGS		+= $(CACHE_FLAGS)
 
 ASFLAGS		= $(CFLAGS) -D__ASSEMBLY__
 
@@ -47,7 +53,7 @@ LDFLAGS		+= -flto -fwhole-program
 
 O_FORMAT 	= $(shell $(OBJDUMP) -i | head -2 | grep elf32)
 
-OBJECTS		:= head.o loader.o cache.o board.o printf.o LzmaDecode.o
+OBJECTS		:= head.o loader.o cache.o board-$(PLATFORM).o printf.o LzmaDecode.o
 
 ifneq ($(strip $(LOADER_DATA)),)
 OBJECTS		+= data.o

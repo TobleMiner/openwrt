@@ -17,15 +17,6 @@
 
 #define KSEG1ADDR(_x)		(((_x) & 0x1fffffff) | 0xa0000000)
 
-/*
-NT, but total and utter bs
-#ifdef CONFIG_SOC_RT288X
-#define UART_BASE		0xb0300c00
-#else
-#define UART_BASE		0xb0000c00
-#endif
-*/
-
 #define UART_BASE		0xBE000C00
 
 #define UART_TBR_OFFSET		0x00

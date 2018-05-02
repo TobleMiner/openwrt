@@ -49,7 +49,7 @@ ASFLAGS		= $(CFLAGS) -D__ASSEMBLY__
 
 LDFLAGS		= -static -Wl,--gc-sections -Wl,-no-warn-mismatch
 LDFLAGS		+= -Wl,-e,startup -T loader.lds -Wl,-Ttext,$(LZMA_TEXT_START)
-LDFLAGS		+= -flto -fwhole-program
+LDFLAGS		+= -flto -fwhole-program -Wl,-z,max-page-size=4096
 
 O_FORMAT 	= $(shell $(OBJDUMP) -i | head -2 | grep elf32)
 
@@ -103,7 +103,7 @@ loader2.o: loader.bin
 	$(LD) -r -b binary --oformat $(O_FORMAT) -o $@ $<
 
 loader.elf: loader2.o
-	$(LD) -e startup -T loader2.lds -Ttext $(LOADADDR) -o $@ $<
+	$(LD) -e startup -T loader2.lds -Ttext $(LOADADDR) -z max-page-size=4096 -o $@ $<
 
 mrproper: clean
 

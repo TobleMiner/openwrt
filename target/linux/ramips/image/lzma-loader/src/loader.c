@@ -212,14 +212,6 @@ static void lzma_init_data(void)
 }
 #endif /* (LZMA_WRAPPER) */
 
-#define RALINK_SYSCTL_BASE	0xBE000000
-#define RT2880_PRGIO_ADDR	(RALINK_SYSCTL_BASE + 0x600)
-#define RT2880_REG_PIODATA	(RT2880_PRGIO_ADDR + 0x20)
-
-#define RALINK_REG(addr)	(*((volatile uint32_t *)(addr)))
-
-#define SLEEP {unsigned long i; for( i= 0;i < 100000000ul; i++);}
-
 void loader_main(unsigned long reg_a0, unsigned long reg_a1,
 		 unsigned long reg_a2, unsigned long reg_a3)
 {
@@ -227,31 +219,18 @@ void loader_main(unsigned long reg_a0, unsigned long reg_a1,
 			      unsigned long);
 	int res;
 
-//	RALINK_REG(RT2880_REG_PIODATA) &= ~(1 << 9);
-
 	board_init();
 
 	printf("\n\nOpenWrt kernel loader for MIPS based SoC\n");
 	printf("Copyright (C) 2011 Gabor Juhos <juhosg@openwrt.org>\n");
 
-//	SLEEP
-
 	lzma_init_data();
-
-//	printf("LZMA init data finished\n");
-//	SLEEP
-
-//	while(1);
-
 
 	res = lzma_init_props();
 	if (res != LZMA_RESULT_OK) {
 		printf("Incorrect LZMA stream properties!\n");
 		halt();
 	}
-
-//	printf("LZMA init props finished\n");
-//	SLEEP
 
 	printf("Decompressing kernel... ");
 
@@ -271,14 +250,6 @@ void loader_main(unsigned long reg_a0, unsigned long reg_a1,
 	}
 
 	flush_cache(kernel_la, lzma_outsize);
-
-	size_t num_bytes = 256;
-	printf("First %lu bytes of kernel:\n", num_bytes);
-	off_t off;
-	for(off = 0; off < num_bytes; off++) {
-		printf("%02x ", *(((uint8_t*)kernel_la) + off));
-	}
-	printf("\n");
 
 	printf("Starting kernel at %08x...\n\n", kernel_la);
 

@@ -31,14 +31,6 @@ LEAF(startup)
 	.set noreorder
 	.set mips32
 
-	# DEBUG: Disable PCIe0 power
-	li	t0, 0xBE000620
-	lw	t1, 0(t0)
-	li	t2, 0xFFFFFDFF
-	and	t1, t2
-	sw	t1, 0(t0)	
-	# /DEBUG
-
 	mtc0	zero, CP0_WATCHLO	# clear watch registers
 	mtc0	zero, CP0_WATCHHI
 	mtc0	zero, CP0_CAUSE		# clear before writing status register

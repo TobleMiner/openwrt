@@ -87,31 +87,11 @@
 		enable-active-high;
 		regulator-always-on;
 	};
-
-/*	gpio_export {
-		compatible = "gpio-export";
-		#size-cells = <0>;
-
-		buzzer {
-			gpio-export,name = "buzzer";
-			gpio-export,output = <0>;
-			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
-		};
-
-		usb {
-			gpio-export,name = "usb";
-			gpio-export,output = <1>;
-			gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-		};
-	};
-*/
 };
 
 
 &spi0 {
 	status = "okay";
-
-	/* multi-flash layout, u-boot mod required! */
 
 	w25q40@0 {
 		#address-cells = <1>;
@@ -153,18 +133,10 @@
 			read-only;
 		};
 
-		/* firmware should start here, requires yet more uboot modification */
-		delete_this: partition@40000 {
-			label = "not_really_factory";
-			reg = <0x40000 0x10000>;
-			read-only;
-		};
-
-		partition@50000 {
+		partition@40000 {
 			label = "firmware";
-			reg = <0x50000 0xfb0000>;
+			reg = <0x40000 0xfc0000>;
 		};
-
 	};
 };
 

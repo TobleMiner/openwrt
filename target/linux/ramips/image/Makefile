@@ -49,16 +49,6 @@ define Build/patch-dtb
 	$(STAGING_DIR_HOST)/bin/patch-dtb $@ $@.dtb
 endef
 
-OBJCOPY := $(CROSS_COMPILE)objcopy
-define Build/append-dtb
-	$(call Image/BuildDTB,../dts/$(DTS).dts,$@.dtb)
-	$(OBJCOPY) --update-section .appended_dtb=$@.dtb $@
-endef
-
-define Build/append-rootfs-elf
-	dd if=$(IMAGE_ROOTFS).elf >> $@
-endef
-
 define Build/trx
 	$(STAGING_DIR_HOST)/bin/trx $(1) \
 		-o $@ \

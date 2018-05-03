@@ -1,0 +1,13 @@
+--- a/drivers/spi/spi-mt7621.c
++++ b/drivers/spi/spi-mt7621.c
+@@ -358,8 +358,8 @@ static int mt7621_spi_transfer_one_messa
+ 	struct spi_device *spi = m->spi;
+ 	int cs = spi->chip_select;
+ 
+-	if (cs)
+-		return mt7621_spi_transfer_full_duplex(master, m);
++//	if (cs)
++//		return mt7621_spi_transfer_full_duplex(master, m);
+ 	return mt7621_spi_transfer_half_duplex(master, m);
+ }
+ 

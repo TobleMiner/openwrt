@@ -1,6 +1,16 @@
 --- a/drivers/spi/spi-mt7621.c
 +++ b/drivers/spi/spi-mt7621.c
-@@ -358,8 +358,8 @@ static int mt7621_spi_transfer_one_messa
+@@ -104,7 +104,8 @@ static void mt7621_spi_set_cs(struct spi
+ 	int cs = spi->chip_select;
+ 	u32 polar = 0;
+ 
+-        mt7621_spi_reset(rs, cs);
++//        mt7621_spi_reset(rs, cs);
++        mt7621_spi_reset(rs, 0);
+ 	if (enable)
+ 		polar = BIT(cs);
+ 	mt7621_spi_write(rs, MT7621_SPI_POLAR, polar);
+@@ -358,8 +359,8 @@ static int mt7621_spi_transfer_one_messa
  	struct spi_device *spi = m->spi;
  	int cs = spi->chip_select;
  

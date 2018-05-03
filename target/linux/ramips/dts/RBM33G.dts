@@ -145,7 +145,7 @@
 			label = "u-boot";
 			reg = <0x0 0x30000>;
 			/* Mark uboot partition as rw to allow writing uboot from initramfs image */
-			/* read-only; *//*
+			/* read-only; */
 		};
 
 		partition@30000 {

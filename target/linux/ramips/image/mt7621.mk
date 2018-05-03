@@ -212,23 +212,26 @@ define Device/rbm33g
 
   LOADER_TYPE := elf
   PLATFORM := mt7621
+  KERNEL := kernel-bin | patch-dtb | lzma | uImage lzma
+
+  IMAGES += routerboot.elf
+endef
+TARGET_DEVICES += rbm33g
+
+define Device/rbm33g-factory
+  DTS := RBM33G-factory
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_TITLE := MikroTik RBM33G (factory)
+  BOARDNAME := MIKROTIK-RBM33G-factory
+  DEVICE_PACKAGES := kmod-usb3 uboot-envtools
+
+  LOADER_TYPE := elf
+  PLATFORM := mt7621
   KERNEL := kernel-bin | patch-dtb | lzma | loader-kernel
 
   IMAGES += routerboot.elf
-#  IMAGE/routerboot.elf := append-rootfs-elf | append-dtb
-
-#  IMAGE/factory.bin := append-kernel
-#  IMAGES += factory.bin
-#  BOARDNAME := MIKROTIK-RBM33G
-#  IMAGE_SIZE := $(ralink_default_fw_size_16M)
-#  LOADER_TYPE := elf
-#  KERNEL_INSTALL := 1
-#  KERNEL := kernel-bin | lzma | loader-kernel
-#  SUPPORTED_DEVICES := rb-750-r2 rb-750up-r2 rb-750p-pbr2 rb-911-2hn rb-911-5hn rb-941-2nd rb-951ui-2nd rb-952ui-5ac2nd rb-962uigs-5hact2hnt rb-lhg-5nd rb-map-2nd rb-mapl-2nd rb-wap-2nd
-#  IMAGE/sysupgrade.bin := append-kernel | kernel2minor -s 1024 -e | pad-to $$$$(BLOCKSIZE) | \
-#	append-rootfs | pad-rootfs | append-metadata | check-size $$$$(IMAGE_SIZE)
 endef
-TARGET_DEVICES += rbm33g
+TARGET_DEVICES += rbm33g-factory
 
 define Device/re350-v1
   DTS := RE350

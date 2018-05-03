@@ -113,12 +113,12 @@
 
 	/* multi-flash layout, u-boot mod required! */
 
-	w25q40@0 {
+/*	w25q40@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <3125000>;
+		spi-max-frequency = <100000>;
 
 		partition@0 {
 			label = "routerboot";
@@ -133,19 +133,33 @@
 		};
 
 	};
+*/
+	spidev@0 {
+		status = "okay";
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+	};
 
-	w25q128@0 {
+	spidev@1 {
+		status = "okay";
+		compatible = "spidev";
+		reg = <1>;
+		spi-max-frequency = <1000000>;
+	};
+
+/*	w25q128@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
 		compatible = "jedec,spi-nor";
 		reg = <1>;
-		spi-max-frequency = <3125000>;
+		spi-max-frequency = <1000000>;
 
 		partition@0 {
 			label = "u-boot";
 			reg = <0x0 0x30000>;
 			/* Mark uboot partition as rw to allow writing uboot from initramfs image */
-			/* read-only; */
+			/* read-only; *//*
 		};
 
 		partition@30000 {
@@ -154,7 +168,6 @@
 			read-only;
 		};
 
-		/* firmware should start here, requires yet more uboot modification */
 		delete_this: partition@40000 {
 			label = "not_really_factory";
 			reg = <0x40000 0x10000>;
@@ -167,13 +180,14 @@
 		};
 
 	};
+*/
 };
-
+/*
 &ethernet {
 	mtd-mac-address = <&factory 0x0010>;
 	mtd-mac-address-increment = <1>;
 };
-
+*/
 
 &pinctrl {
 	state_default: pinctrl0 {

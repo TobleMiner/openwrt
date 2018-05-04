@@ -90,6 +90,7 @@ platform_check_image() {
 	m4-8M|\
 	mac1200rv2|\
 	microwrt|\
+	mikrotik,rbm33g|\
 	miniembplug|\
 	miniembwifi|\
 	miwifi-mini|\

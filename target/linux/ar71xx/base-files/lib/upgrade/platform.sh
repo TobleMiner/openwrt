@@ -250,6 +250,7 @@ platform_check_image() {
 	hornet-ub-x2|\
 	jwap230|\
 	lima|\
+	lbe-5ac-16-120|\
 	loco-m-xw|\
 	mzk-w04nu|\
 	mzk-w300nh|\

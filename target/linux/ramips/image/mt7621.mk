@@ -203,22 +203,15 @@ define Device/rb750gr3
 endef
 TARGET_DEVICES += rb750gr3
 
-define Build/patch-dtb-factory
-	$(call Image/BuildDTB,../dts/$(DTS)-factory.dts,$@-factory.dtb)
-	$(STAGING_DIR_HOST)/bin/patch-dtb $@ $@-factory.dtb
-endef
-
 define Device/mikrotik_rbm33g
   DTS := RBM33G
   BLOCKSIZE := 64k
   IMAGE_SIZE := 16128k
   DEVICE_TITLE := MikroTik RBM33G
-  DEVICE_PACKAGES := kmod-usb3 uboot-envtools
+  DEVICE_PACKAGES := kmod-usb3
   LOADER_TYPE := elf
   PLATFORM := mt7621
-  FILESYSTEMS := squashfs
-  KERNEL := kernel-bin | patch-dtb-factory | lzma | loader-kernel
-  KERNEL_INITRAMFS := kernel-bin | patch-dtb-factory | lzma | loader-kernel
+  KERNEL := kernel-bin | patch-dtb | lzma | loader-kernel
   IMAGE/sysupgrade.bin := append-kernel | kernel2minor -s 1024 | pad-to $$$$(BLOCKSIZE) | \
         append-rootfs | pad-rootfs | append-metadata | check-size $$$$(IMAGE_SIZE)
 endef

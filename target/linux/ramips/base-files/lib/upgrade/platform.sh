@@ -90,7 +90,6 @@ platform_check_image() {
 	m4-8M|\
 	mac1200rv2|\
 	microwrt|\
-	mikrotik,rbm33g|\
 	miniembplug|\
 	miniembwifi|\
 	miwifi-mini|\
@@ -290,6 +289,7 @@ platform_check_image() {
 		nand_do_platform_check "$board" "$1"
 		return $?;
 		;;
+	mikrotik,rbm33g|\
 	re350-v1)
 		[ "$magic" != "01000000" ] && {
 			echo "Invalid image type."

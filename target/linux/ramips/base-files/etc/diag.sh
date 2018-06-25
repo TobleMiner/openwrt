@@ -204,6 +204,9 @@ get_status_led() {
 	m4-8M)
 		status_led="m4:blue:status"
 		;;
+	mikrotik,rbm11g)
+		status_led="rbm11g:green:usr"
+		;;
 	mikrotik,rbm33g)
 		status_led="rbm33g:green:usr"
 		;;

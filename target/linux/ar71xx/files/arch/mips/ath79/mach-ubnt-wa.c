@@ -32,6 +32,30 @@
 #define UBNT_WA_WMAC_CALDATA_OFFSET     0x1000
 #define UBNT_WA_PCI_CALDATA_OFFSET      0x5000
 
+#define UBNT_WA_GPIO_LED_L1	11
+#define UBNT_WA_GPIO_LED_L2	16
+#define UBNT_WA_GPIO_LED_L3	13
+#define UBNT_WA_GPIO_LED_L4	14
+
+static struct gpio_led ubnt_wa_leds_gpio[] __initdata = {
+	{
+		.name		= "ubnt:blue:link1",
+		.gpio		= UBNT_WA_GPIO_LED_L1,
+		.active_low	= 1,
+	}, {
+		.name		= "ubnt:blue:link2",
+		.gpio		= UBNT_WA_GPIO_LED_L2,
+		.active_low	= 1,
+	}, {
+		.name		= "ubnt:blue:link3",
+		.gpio		= UBNT_WA_GPIO_LED_L3,
+		.active_low	= 1,
+	}, {
+		.name		= "ubnt:blue:link4",
+		.gpio		= UBNT_WA_GPIO_LED_L4,
+		.active_low	= 1,
+	},
+};
 
 static struct flash_platform_data ubnt_wa_flash_data = {
 	/* mx25l12805d and mx25l12835f have the same JEDEC ID */
@@ -156,6 +180,9 @@ static void __init ubnt_nanostationac_setup(void)
 
 
 	ap91_pci_init(eeprom + UBNT_WA_PCI_CALDATA_OFFSET, NULL);
+
+	ath79_register_leds_gpio(-1, ARRAY_SIZE(ubnt_wa_leds_gpio),
+                                 ubnt_wa_leds_gpio);
 
 	ath79_register_gpio_keys_polled(-1, UBNT_WA_KEYS_POLL_INTERVAL,
 	                                ARRAY_SIZE(ubnt_wa_gpio_keys),

@@ -181,7 +181,7 @@ TARGET_DEVICES += ubnt-lbe-5ac-16-120
 define Device/ubnt-nanostationac
   $(Device/ubnt-wa)
   DEVICE_TITLE := Ubiquiti Nanostation AC
-  DEVICE_PACKAGES := kmod-ath10k ath10k-firmware-qca988x
+  DEVICE_PACKAGES += kmod-ath10k ath10k-firmware-qca988x
   DEVICE_PROFILE += UBNTNANOSTATIONAC
   BOARDNAME := UBNT-NANOSTATION-AC
   IMAGE_SIZE := 15744k

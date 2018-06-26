@@ -446,6 +446,7 @@ ar71xx_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0@eth0" "1:lan" "5:wan" "6@eth1"
 		;;
+	nanostationac|\
 	nanostation-m-xw)
 		ucidef_add_switch "switch0" \
 			"0@eth0" "5:lan" "1:wan"

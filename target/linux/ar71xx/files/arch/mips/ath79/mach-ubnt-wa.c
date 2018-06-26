@@ -97,3 +97,18 @@ MIPS_MACHINE(ATH79_MACH_UBNT_LITEBEAMACAP, "UBNT-LITEBEAMACAP",
 
 MIPS_MACHINE(ATH79_MACH_UBNT_NANOSTATIONACL, "UBNT-NANOSTATION-ACL",
 	     "Ubiquiti Nanostation AC loco", ubnt_wa_setup);
+
+
+static void __init ubnt_nanostationac_setup(void)
+{
+	ubnt_wa_setup();
+
+//	ath79_eth1_data.phy_if_mode = PHY_INTERFACE_MODE_RGMII;
+//	ath79_eth1_data.mii_bus_dev = &ath79_mdio0_device.dev;
+//	ath79_eth1_data.phy_mask = BIT(UBNT_WA_PHY_ID);
+//	ath79_eth1_pll_data.pll_1000 = 0x06000000;
+//	ath79_eth1_pll_data.pll_10 = 0x00001313;
+}
+
+MIPS_MACHINE(ATH79_MACH_UBNT_NANOSTATIONAC, "UBNT-NANOSTATION-AC",
+	     "Ubiquiti Nanostation AC", ubnt_nanostationac_setup);

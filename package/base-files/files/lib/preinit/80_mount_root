@@ -6,10 +6,11 @@ do_mount_root() {
 	mount_root
 	boot_run_hook preinit_mount_root
 	[ -f /sysupgrade.tgz ] && {
-		echo "- config restore -"
+		echo "- config restore -" > /dev/kmsg
 		cd /
 		tar xzf /sysupgrade.tgz
 	}
+		echo "- root mount complete -" > /dev/kmsg
 }
 
 [ "$INITRAMFS" = "1" ] || boot_hook_add preinit_main do_mount_root

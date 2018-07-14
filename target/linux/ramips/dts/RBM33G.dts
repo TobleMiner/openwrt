@@ -104,18 +104,44 @@
 		reg = <0>;
 		spi-max-frequency = <3125000>;
 
-		partition@0 {
-			label = "routerboot";
-			reg = <0x0 0xf000>;
-			read-only;
-		};
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
-		factory: partition@f000 {
-			label = "factory";
-			reg = <0xf000 0x71000>;
-			read-only;
-		};
+			partition@0 {
+				label = "RouterBoot";
+				reg = <0x0 0x40000>;
+				read-only;
+				compatible = "fixed-partitions";
+				#address-cells = <1>;
+				#size-cells = <1>;
 
+				routerboot@0 {
+					reg = <0x0 0xf000>;
+					read-only;
+				};
+
+				hard_config: hard_config@f000 {
+					reg = <0xf000 0x1000>;
+					read-only;
+				};
+
+				routerboot2@10000 {
+					reg = <0x10000 0xf000>;
+					read-only;
+				};
+
+				soft_config@20000 {
+					reg = <0x20000 0x1000>;
+				};
+
+				bios@30000 {
+					reg = <0x30000 0x1000>;
+					read-only;
+				};
+			};
+		};
 	};
 
 	w25q128@0 {
@@ -123,17 +149,30 @@
 		#size-cells = <1>;
 		compatible = "jedec,spi-nor";
 		reg = <1>;
+		// XXX empiric value to obtain actual 10MHz SCK at the chip 
 		spi-max-frequency = <3125000>;
 
-		partition@40000 {
-			label = "firmware";
-			reg = <0x040000 0xFC0000>;
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			// this contains no data but is named so in OEM source
+			partition@0 {
+				label = "RouterBootFake";
+				reg = <0x0 0x40000>;
+				read-only;
+			};
+
+			firmware@40000 {
+				reg = <0x040000 0xFC0000>;
+			};
 		};
 	};
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x0010>;
+	mtd-mac-address = <&hard_config 0x0010>;
 	mtd-mac-address-increment = <1>;
 };
 

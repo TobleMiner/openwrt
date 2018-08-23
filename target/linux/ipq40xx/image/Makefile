@@ -126,6 +126,18 @@ define Device/meraki_mr33
 endef
 TARGET_DEVICES += meraki_mr33
 
+define Device/mikrotik_wap60g
+	$(call Device/Default)
+	$(call Device/FitImage)
+	DEVICE_TITLE := MikroTik wAP 60G
+#	DEVICE_DTS_CONFIG := config@4
+	DEVICE_DTS := qcom-ipq4019-wap60g
+	IMAGES := sysupgrade.bin
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += mikrotik_wap60g
+
+
 define Device/netgear_ex61x0v2
 	$(call Device/DniImage)
 	KERNEL_SIZE := 3080192

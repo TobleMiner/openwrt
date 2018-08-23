@@ -43,6 +43,7 @@ openmesh,a62)
 	ucidef_set_interfaces_lan_wan "eth1" "eth0"
 	;;
 meraki,mr33 |\
+mikrotik,wap60g |\
 netgear,ex6100v2 |\
 netgear,ex6150v2 |\
 zyxel,wre6606)

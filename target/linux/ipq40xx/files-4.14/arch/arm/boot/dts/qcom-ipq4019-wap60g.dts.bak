@@ -15,12 +15,6 @@
  *
  */
 
-/*
-phandles:
-	gcc: 0x02
-
-*/
-
 #include "qcom-ipq4019.dtsi"
 #include "qcom-ipq4019-bus.dtsi"
 #include <dt-bindings/gpio/gpio.h>
@@ -32,42 +26,25 @@ phandles:
 	compatible = "mikrotik,wap60g", "qcom,ipq4019";
 
 	soc {
+/*
 		mdio@90000 {
 			status = "okay";
-
-			ethernet-phy@0 {
-				reg = < 0x00 0x04 >;
-			};
-
-			ethernet-phy@1 {
-				reg = < 0x01 0x04 >;
-			};
-
-			ethernet-phy@2 {
-				reg = < 0x02 0x04 >;
-			};
-
-			ethernet-phy@3 {
-				reg = < 0x03 0x04 >;
-			};
-
-			ethernet-phy@4 {
-				reg = < 0x04 0x04 >;
-			};
+			/delete-node/ ethernet-phy@0;
+			/delete-node/ ethernet-phy@2;
+			/delete-node/ ethernet-phy@3;
+			/delete-node/ ethernet-phy@4;
 		};
 
 		ess-psgmii@98000 {
 			status = "okay";
-			resets = <&gcc 0x4d >;
-			reset-names = "psgmii_rst";
 		};
-
+*/
 		tcsr@194b000 {
 			/* select hostmode */
 			compatible = "qcom,tcsr";
 			reg = <0x194b000 0x100>;
-			qcom,usb-hsphy-mode-select = < 0xe700e7 >;
-			status = "okay";
+/*			qcom,usb-hsphy-mode-select = <TCSR_USB_HSPHY_HOST_MODE>;
+*/			status = "okay";
 		};
 
 		tcsr@1949000 {
@@ -75,79 +52,58 @@ phandles:
 			reg = <0x1949000 0x100>;
 			qcom,wifi_glb_cfg = <TCSR_WIFI_GLB_CFG>;
 		};
-
+/*
 		ess_tcsr@1953000 {
 			compatible = "qcom,tcsr";
 			reg = <0x1953000 0x1000>;
-			qcom,ess-interface-select = <0x00>;
+			qcom,ess-interface-select = <TCSR_ESS_PSGMII_RGMII5>;
 		};
-
+*/
 		tcsr@1957000 {
 			compatible = "qcom,tcsr";
 			reg = <0x1957000 0x100>;
-			qcom,wifi_noc_memtype_m0_m2 = <0x2222222>;
+			qcom,wifi_noc_memtype_m0_m2 = <TCSR_WIFI_NOC_MEMTYPE_M0_M2>;
 		};
 
-		/* Possibly wrong offset, factory dtb implies 0x6000000 */
 		usb2: usb2@60f8800 {
 			status = "okay";
 		};
 
-		/* Does not match factory mikrotik config, but works fine */
 		serial@78af000 {
 			pinctrl-0 = <&serial_pins>;
 			pinctrl-names = "default";
 			status = "okay";
 		};
 
-		/* Possibly wrong offset and driver, factory dtb implies 0x8e20000 and type qcrypto */
 		crypto@8e3a000 {
 			status = "okay";
 		};
 
-		/* Unchanged, atm don't care */
 		watchdog@b017000 {
 			status = "okay";
 		};
-
-		/* resets overwritten, don't know if foss driver uses them though */
+/*
 		ess-switch@c000000 {
-			resets = <&gcc 0x1d &gcc 0x4e &gcc 0x4f &gcc 0x50 &gcc 0x51 &gcc 0x52 >;
-			reset-names = "ess_rst", "ess_mac1_clk_dis", "ess_mac2_clk_dis", "ess_mac3_clk_dis", "ess_mac4_clk_dis", "ess_mac5_clk_dis";
-			switch_cpu_bmp = < 0x01 >;
-			switch_lan_bmp = < 0x1e >;
-			switch_wan_bmp = < 0x20 >;
-			switch_mac_mode = < 0x00 >;
-			switch_initvlas = < 0x7c 0x54 >;
+			switch_mac_mode = <0x3>;
+			switch_lan_bmp = <0x0>;
+			switch_wan_bmp = <0x10>;
 
 			status = "okay";
 		};
 
-		/* Heavy adjustments, unsure about exact implications regarding compatibility with linux 4.14 */
 		edma@c080000 {
-			qcom,wan_port_id_mask = < 0x10 >;
-			qcom,phy_mdio_addr = < 0x04 >;
-			qcom,forced_speed = < 0x3e8 >;
-			qcom,forced_duplex = < 0x01 >;
-			port_map = < 0x100004 0xffffffff >;
+			qcom,single-phy;
+			qcom,num_gmac = <1>;
+			phy-mode = "rgmii-rxid";
 			status = "okay";
-
-			gmac0 {
-				local-mac-address = [ 00 00 00 00 00 00 ];
-			};
-
-			gmac1 {
-				local-mac-address = [ 00 00 00 00 00 00 ];
-			};
 		};
+*/
 	};
 
-	/* Don't care atm */
 	gpio-keys {
 		compatible = "gpio-keys";
 
 	};
-/* Don't care, too */
 /*
 	aliases {
 		led-boot = &power;
@@ -246,16 +202,13 @@ phandles:
 	status = "okay";
 };
 
-/* Should probably be nuked from orbit (read as 'removed') */
-/*
 &gmac0 {
 	qcom,phy_mdio_addr = <1>;
 	qcom,poll_required = <1>;
-	qcom,forced_speed = <1000>;
+/*	qcom,forced_speed = <1000>;
 	qcom,forced_duplex = <1>;
-	vlan_tag = <0 0x20>;
+*/	vlan_tag = <0 0x20>;
 };
-*/
 
 &usb2_hs_phy {
 	status = "okay";
@@ -280,20 +233,21 @@ phandles:
 			qcom,ath10k-calibration-variant = "OM-A62";
 		};
 */
-/*
+
 		wil6210: wifi@0,0 {
 			compatible = "qcom,wil6210", "wil6210";
 			status = "okay";
 			reg = <0x00010000 0 0 0 0>;
 		};
-*/
 	};
 };
 
 &wifi0 {
 	status = "disabled";
+	qcom,ath10k-calibration-variant = "OM-A62";
 };
 
 &wifi1 {
 	status = "disabled";
+	qcom,ath10k-calibration-variant = "OM-A62";
 };

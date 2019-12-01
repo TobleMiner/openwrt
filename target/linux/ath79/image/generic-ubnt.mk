@@ -79,7 +79,7 @@ define Device/ubnt-sw
   IMAGE_SIZE := 7552k
   UBNT_TYPE := SW
   UBNT_CHIP := ar7240
-  ATH_SOC := ar7241
+  ATH_SOC := ar7242
   KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma | uImage lzma
 endef
 

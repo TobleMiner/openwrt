@@ -4,10 +4,10 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 
-#include "ar7241_ubnt_xm.dtsi"
+#include "ar7242_ubnt_sw.dtsi"
 
 / {
-	compatible = "ubnt,edegeswitch-xp8", "qca,ar7241";
+	compatible = "ubnt,edegeswitch-xp8", "qca,ar7242";
 	model = "Ubiquiti EdgeSwitch XP8";
 
 	chosen {

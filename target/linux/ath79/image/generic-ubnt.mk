@@ -72,6 +72,17 @@ define Device/ubnt-xm
   KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma | uImage lzma
 endef
 
+define Device/ubnt-sw
+  $(Device/ubnt)
+  DEVICE_VARIANT := SW
+  DEVICE_PACKAGES += kmod-usb-ohci
+  IMAGE_SIZE := 7552k
+  UBNT_TYPE := SW
+  UBNT_CHIP := ar7240
+  ATH_SOC := ar7241
+  KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma | uImage lzma
+endef
+
 define Device/ubnt-xw
   $(Device/ubnt)
   DEVICE_VARIANT := XW
@@ -257,3 +268,11 @@ define Device/ubnt_unifiac-pro
   SUPPORTED_DEVICES += ubnt-unifiac-pro
 endef
 TARGET_DEVICES += ubnt_unifiac-pro
+
+define Device/ubnt_edgeswitch-xp8
+  $(Device/ubnt-sw)
+  DEVICE_MODEL := EdgeSwitch-XP8
+  DEVICE_PACKAGES += rssileds
+  SUPPORTED_DEVICES += ubnt-edgeswitch-xp8
+endef
+TARGET_DEVICES += ubnt_edgeswitch-xp8

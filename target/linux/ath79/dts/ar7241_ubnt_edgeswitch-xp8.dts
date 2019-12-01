@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/dts-v1/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+#include "ar7241_ubnt_xm.dtsi"
+
+/ {
+	compatible = "ubnt,edegeswitch-xp8", "qca,ar7241";
+	model = "Ubiquiti EdgeSwitch XP8";
+
+	chosen {
+		bootargs = "console=ttyS0,115200n8";
+	};
+
+};
+
+&spi {
+	status = "okay";
+
+	num-cs = <1>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <25000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			uboot: partition@0 {
+				reg = <0x000000 0x040000>;
+				label = "u-boot";
+				read-only;
+			};
+
+			uboot_env: partition@40000 {
+				reg = <0x040000 0x010000>;
+				label = "u-boot-env";
+				read-only;
+			};
+
+			firmware: partition@50000 {
+				compatible = "denx,uimage";
+				reg = <0x050000 0x760000>;
+				label = "firmware";
+			};
+
+			cfg: partition@7b0000 {
+				reg = <0x7b0000 0x040000>;
+				label = "cfg";
+				read-only;
+			};
+
+			art: partition@7f0000 {
+				reg = <0x7f0000 0x010000>;
+				label = "art";
+				read-only;
+			};
+		};
+	};
+};
+
+&usb_phy {
+	status = "okay";
+};
+
+&usb {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	hub_port: port@1 {
+		reg = <1>;
+		#trigger-source-cells = <0>;
+	};
+};
+
+&pcie {
+	status = "okay";
+};
+
+&uart {
+	status = "okay";
+};

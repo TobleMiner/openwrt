@@ -7,7 +7,7 @@
 #include "ar7242_ubnt_sw.dtsi"
 
 / {
-	compatible = "ubnt,edegeswitch-xp8", "qca,ar7242";
+	compatible = "ubnt,edgeswitch-xp8", "qca,ar7242";
 	model = "Ubiquiti EdgeSwitch XP8";
 
 	chosen {

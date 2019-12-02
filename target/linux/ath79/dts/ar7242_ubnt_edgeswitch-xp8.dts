@@ -188,6 +188,92 @@
 	};
 };
 
+&mdio0 {
+	status = "okay";
+
+	phy-mask = <0x10>;
+/*
+	phy0: ethernet-phy@1e {
+		reg = <0x1e>;
+		phy-mode = "rgmii-txid";
+	};
+
+	phy0: ethernet-phy@8 {
+		reg = <8>;
+		label = "cpu";
+		phy-mode = "rgmii-txid";
+		ethernet = <&eth0>;
+
+		fixed-link {
+			speed = <1000>;
+			duplex-full;
+		};
+	};
+
+*/
+	switch0: ethernet-switch@1e {
+		compatible = "brcm,bcm53128";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x1e>;
+
+		ports {
+			port0@0 {
+				reg = <0>;
+				label = "lan1";
+			};
+
+			port1@1 {
+				reg = <1>;
+				label = "lan2";
+			};
+
+			port2@2 {
+				reg = <2>;
+				label = "lan3";
+			};
+
+			port3@3 {
+				reg = <3>;
+				label = "lan4";
+			};
+
+			port4@4 {
+				reg = <4>;
+				label = "lan5";
+			};
+
+			port5@5 {
+				reg = <5>;
+				label = "lan6";
+			};
+
+			port6@6 {
+				reg = <6>;
+				label = "lan7";
+			};
+
+			port7@7 {
+				reg = <7>;
+				label = "lan8";
+			};
+
+			phy0: port8@8 {
+				reg = <8>;
+				label = "cpu";
+				phy-mode = "rgmii-txid";
+				ethernet = <&eth0>;
+
+				fixed-link {
+					speed = <1000>;
+					full-duplex;
+				};
+			};
+
+		};
+	};
+};
+
 &usb_phy {
 	status = "okay";
 };
@@ -209,4 +295,16 @@
 
 &uart {
 	status = "okay";
+};
+
+&eth0 {
+	status = "okay";
+	phy-mode = "rgmii-rxid";
+//	pll-data = <0x16000000 0x00000101 0x00001313>;
+
+	phy-handle = <&phy0>;
+	fixed-link {
+		speed = <1000>;
+		full-duplex;
+	};
 };

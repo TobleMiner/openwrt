@@ -272,7 +272,7 @@ TARGET_DEVICES += ubnt_unifiac-pro
 define Device/ubnt_edgeswitch-xp8
   $(Device/ubnt-sw)
   DEVICE_MODEL := EdgeSwitch-XP8
-  DEVICE_PACKAGES += rssileds
+  DEVICE_PACKAGES += switch-bcm53xx-mdio
   SUPPORTED_DEVICES += ubnt-edgeswitch-xp8
 endef
 TARGET_DEVICES += ubnt_edgeswitch-xp8

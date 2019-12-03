@@ -315,7 +315,7 @@
 &eth0 {
 	status = "okay";
 	phy-mode = "rgmii-rxid";
-//	pll-data = <0x16000000 0x00000101 0x00001313>;
+	pll-data = <0x16000000 0x00000101 0x00001313>;
 
 	phy-handle = <&phy0>;
 	fixed-link {

@@ -51,6 +51,18 @@ define Device/ubnt-bz
   ATH_SOC := ar7241
 endef
 
+define Device/ubnt-sw
+  $(Device/ubnt)
+  ATH_SOC := ar7242
+  DEVICE_PACKAGES += kmod-usb-ohci
+  IMAGE_SIZE := 7552k
+  UBNT_BOARD := SW
+  UBNT_CHIP := ar7240
+  UBNT_TYPE := SW
+  UBNT_VERSION := 1.4.1
+  KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma | uImage lzma
+endef
+
 define Device/ubnt-wa
   $(Device/ubnt)
   IMAGE_SIZE := 15744k

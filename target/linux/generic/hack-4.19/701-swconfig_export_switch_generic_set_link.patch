@@ -1,0 +1,10 @@
+--- a/drivers/net/phy/swconfig.c
++++ b/drivers/net/phy/swconfig.c
+@@ -1256,6 +1256,7 @@ switch_generic_set_link(struct switch_de
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(switch_generic_set_link);
+ 
+ static int __init
+ swconfig_init(void)

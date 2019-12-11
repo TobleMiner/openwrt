@@ -75,6 +75,9 @@ include ./generic.mk
 include ./generic-tp-link.mk
 include ./generic-ubnt.mk
 endif
+ifeq ($(SUBTARGET),mikrotik)
+include ./mikrotik.mk
+endif
 ifeq ($(SUBTARGET),nand)
 include ./nand.mk
 endif

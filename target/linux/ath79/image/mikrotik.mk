@@ -3,7 +3,9 @@ define Device/mikrotik
   BOARD_NAME := routerboard
   LOADER_TYPE := elf
 #  KERNEL_NAME := vmlinux.bin.lzma
-  KERNEL := kernel-bin | append-dtb | loader-kernel
+  KERNEL := kernel-bin | append-dtb | lzma | loader-kernel
+  KERNEL_INITRAMFS := kernel-bin | append-dtb | lzma | loader-kernel
+#  KERNEL := $(KERNEL_DTB) | loader-kernel
 #  KERNEL_INITRAMFS_NAME := vmlinux-initramfs.bin.lzma
   IMAGE/sysupgrade.bin/squashfs :=
 endef

@@ -231,7 +231,7 @@ void loader_main(unsigned long reg_a0, unsigned long reg_a1,
 		halt();
 	}
 
-	printf("Decompressing kernel... ");
+	printf("Decompressing kernel %08x -> %08x... ", lzma_data, kernel_la);
 
 	res = lzma_decompress((unsigned char *) kernel_la);
 	if (res != LZMA_RESULT_OK) {

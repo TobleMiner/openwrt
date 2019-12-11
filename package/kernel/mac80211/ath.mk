@@ -1,6 +1,6 @@
 PKG_DRIVERS += \
 	ath ath5k ath6kl ath6kl-sdio ath6kl-usb ath9k ath9k-common ath9k-htc ath10k \
-	carl9170 owl-loader
+	carl9170 owl-loader wil6210
 
 PKG_CONFIG_DEPENDS += \
 	CONFIG_PACKAGE_ATH_DEBUG \
@@ -65,6 +65,10 @@ config-$(call config_package,ath6kl-sdio) += ATH6KL_SDIO
 config-$(call config_package,ath6kl-usb) += ATH6KL_USB
 
 config-$(call config_package,carl9170) += CARL9170
+
+config-$(call config_package,wil6210) += WIL6210
+config-$(call config_package,wil6210) += WIL6210_ISR_COR
+config-y += WIL6210_DEBUGFS
 
 define KernelPackage/ath/config
   if PACKAGE_kmod-ath
@@ -291,4 +295,12 @@ define KernelPackage/owl-loader/description
   together with the calibration data in the file system.
 
   This is necessary for devices like the Cisco Meraki Z1.
+endef
+
+define KernelPackage/wil6210
+  $(call KernelPackage/mac80211/Default)
+  TITLE:=Driver for Wilocity wil6210
+  DEPENDS:=@PCI_SUPPORT +kmod-cfg80211
+  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/wil6210/wil6210.ko
+  AUTOLOAD:=$(call AutoProbe,wil6210)
 endef

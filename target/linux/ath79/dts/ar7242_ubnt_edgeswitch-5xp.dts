@@ -52,13 +52,7 @@
 
 		qca,ar8327-initvals = <
 			0x04 0x05100000 /* PORT0 PAD MODE CTRL */
-			0x0c 0x05100000 /* PORT6 PAD MODE CTRL */
-			0x50 0xffb7ffb7 /* LED_CTRL0 */
-			0x54 0xffb7ffb7 /* LED_CTRL1 */
-			0x58 0xffb7ffb7 /* LED_CTRL2 */
-			0x5c 0x03ffff00 /* LED_CTRL3 */
 			0x7c 0x0000007e /* PORT0_STATUS */
-			0x94 0x0000007e /* PORT6_STATUS */
 		>;
 	};
 };
@@ -67,7 +61,6 @@
 	status = "okay";
 
 	phy-mode = "rgmii";
-//	pll-data = <0x16000000 0x00000101 0x00001313>;
 	mtd-mac-address = <&art 0x0>;
 
 	phy-handle = <&phy0>;
